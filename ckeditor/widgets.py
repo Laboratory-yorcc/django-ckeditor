@@ -31,6 +31,12 @@ class CKEditorWidget(forms.Textarea):
             js = (
                 settings.STATIC_URL + 'ckeditor/ckeditor.js',
             )
+            config_url = getattr(settings, 'CKEDITOR_CONFIG_FILE', None)
+            if config_url:
+                if not isinstance(config_url, tuple):
+                    raise ImproperlyConfigured('CKEDITOR_CONFI_FILE\
+                                setting must be a tuple type.')
+                js += config_url
         except AttributeError:
             raise ImproperlyConfigured("django-ckeditor requires \
                     CKEDITOR_MEDIA_PREFIX setting. This setting specifies a \
@@ -45,7 +51,8 @@ class CKEditorWidget(forms.Textarea):
 
         # Try to get valid config from settings.
         configs = getattr(settings, 'CKEDITOR_CONFIGS', None)
-        if configs != None:
+        config_url = getattr(settings, 'CKEDITOR_CONFIG_FILE', None)
+        if configs:
             if isinstance(configs, dict):
                 # Make sure the config_name exists.
                 if config_name in configs:

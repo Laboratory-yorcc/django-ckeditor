@@ -3,7 +3,7 @@
     CKEDITOR.replace("{{ id }}", {{ config|safe }});
     (function($) {
         $(document).ready(function($) {
-            $('label[for="id_description"]').css('float', 'none');
+            $('label[for="{{ id }}"]').css('float', 'none');
         });
     })(django.jQuery.noConflict());
 </script>
